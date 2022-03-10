@@ -7,7 +7,7 @@ class ThemeCalc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return const MaterialApp();
   }
 }
 
@@ -136,7 +136,7 @@ class _CalculatorState extends State<Calculator> {
                 colorOn : const Color(0xffFFFFFF),
                 colorOff : const Color(0xffFFFFFF),
                 background : const Color(0xffECEFF1),
-                buttonColor : Theme.of(context).colorScheme.primary,
+                buttonColor : Colors.amber,
                 inactiveColor : const Color(0x60000000),
               ),// Кнопка выбора теста
               const SizedBox(width:103, height:30,),
@@ -313,7 +313,7 @@ class _CalculatorState extends State<Calculator> {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).colorScheme.primary,
+                    primary:  Colors.amber,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(36.0)),
                   ),

@@ -1,5 +1,5 @@
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -7,20 +7,10 @@ class Geo {
   final String lat;
   final String lng;
 
-  Geo({required this.lat,
-    required this.lng,});
-
-  // Geo.fromJson(Map<String, dynamic> json) {
-  //   lat = json['lat'];
-  //   lng= json['lng'];
-  // }
-
-  Map<String, dynamic> toJson(){
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data ['lat']=this.lat;
-    data ['lng']=this.lng;
-    return data;
-  }
+  const Geo({
+    required this.lat,
+    required this.lng,
+  });
 }
 
 class Address {

@@ -1,40 +1,21 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Utils/design.dart';
 import '../Utils/strings.dart';
 import '../Utils/widgets.dart';
-import '../Utils/constants.dart';
 import '../models/user.dart';
-
-class TaskMainScreen extends StatelessWidget {
-  const TaskMainScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    int userID = ModalRoute.of(context)!.settings.arguments as int;
-
-    return MainScreen(userID: userID);
-  }
-}
 
 
 class MainScreen extends StatefulWidget {
-  final int userID;
-  const MainScreen({Key? key, required this.userID}) : super(key: key);
-
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-
-  late Future<User> _futureUser;
-  late Future<TaskList> _futureTaskList;
-  // late List<User> usersListData;
+  late Future<UserList> futureUserList;
+  int _selectedIndex = -1;
 
   String? _userStoredName;
   String? _userStoredPass;
@@ -58,20 +39,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     _loadUserData();
-    _futureUser = fetchSingleUser(widget.userID);
-    _futureTaskList = fetchTaskList(widget.userID);
-    // futureUsersList = _fetchUsersList();
-    // FutureBuilder<Users>(
-    //   future: futureUsers,
-    //   builder: (context, snapshot) {
-    //     if (snapshot.hasData) {
-    //       return Text('${snapshot.data!.id}');
-    //     } else if (snapshot.hasError) {
-    //       return Text('${snapshot.error}');
-    //     }
-    //     return const CircularProgressIndicator();
-    //   },
-    // );
+    futureUserList = fetchUserList();
   }
 
 
@@ -85,11 +53,54 @@ class _MainScreenState extends State<MainScreen> {
         body: Container(
           padding: const EdgeInsets.all(20),
           child: Center(
-            child: FutureBuilder<User>(
-                future: _futureUser,
+            child: FutureBuilder<UserList>(
+                future: futureUserList,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return snapshot.data!.userWidget(context);
+                    return ListView.separated(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: snapshot.data!.items.length,
+                      itemBuilder:(BuildContext context, int index) {
+                        return Container(
+                          height: 50,
+                          color: (_selectedIndex == index ?
+                          Theme.of(context).primaryColor
+                              :(index % 2 == 1 ?
+                          Theme.of(context).primaryColor.withOpacity(0.25):
+                          Theme.of(context).primaryColor.withOpacity(0.05))),
+                          child: ListTile(
+                            title: Row(
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: Text(snapshot.data!.items[index].id.toString(), style: Theme.of(context).textTheme.bodyText2,)
+                                ),
+                                Expanded(
+                                    flex: 4,
+                                    child: Text(snapshot.data!.items[index].name, style: Theme.of(context).textTheme.bodyText1,)
+                                ),
+                                Expanded(
+                                    flex: 6,
+                                    child: Text(snapshot.data!.items[index].email, style: Theme.of(context).textTheme.caption, textAlign: TextAlign.right,)
+                                ),
+                              ],
+                            ),
+                            selected: index == _selectedIndex,
+                            onTap: () {
+                              setState(() {
+                                _selectedIndex = index;
+                              });
+                              Navigator.pushNamed(
+                                  context,
+                                  '/user_inf',
+                                  arguments: snapshot.data!.items[index].id
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) => const Divider(),
+                    );
                   } else if (snapshot.hasError) {
                     return Text("Error: ${snapshot.error}");
                   }
@@ -150,18 +161,5 @@ class _MainScreenState extends State<MainScreen> {
     //   //     },
     //   // ),
     // );
-  }
-}
-
-Future<List<User>> _fetchUsersList() async {
-  final response = await http.get(Uri.parse(Url));
-
-  if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((user) => User.fromJson(user)).toList();
-
-  } else {
-
-    throw Exception('Failed to load users from API');
   }
 }

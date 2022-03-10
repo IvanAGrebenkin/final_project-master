@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../Utils/widgets.dart';
 import '../models/user.dart';
 import '../Utils/strings.dart';
-import 'package:http/http.dart' as http;
 
 class TaskMainScreen extends StatelessWidget {
   const TaskMainScreen({Key? key}) : super(key: key);
@@ -51,12 +50,6 @@ class _TaskScreenState extends State<TaskScreen> {
     });
   }
 
-  void _saveUserData() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('userStoredName', (_userStoredName ?? ''));
-    prefs.setString('userStoredPass', (_userStoredPass ?? ''));
-  }
-  //END OF USER AUTHENTICATION
 
   @override
   void initState() {
@@ -70,7 +63,8 @@ class _TaskScreenState extends State<TaskScreen> {
   Widget build(BuildContext context) {
     if (_checkAuthorization()) {
       return Scaffold(
-        appBar: AppBar(),
+        appBar:  appBar(context),
+        drawer: navDrawer(context),
         body: Container(
           padding: const EdgeInsets.all(20),
           child: Center(
