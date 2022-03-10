@@ -25,7 +25,7 @@ class _NavigationDemoState extends State<Navigation> {
       initialRoute: '/',
       routes: {
         '/': (context) => const AuthPage(),
-        '/main_screen': (context) => const MainScreen(),
+        '/main_screen': (context) => TaskMainScreen(),
         '/nav_calculator': (context) => const Calculator(),
         '/counter': (context) => CounterScreen(storage: Counter2Storage()),
       },
