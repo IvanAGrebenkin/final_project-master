@@ -22,9 +22,8 @@ Widget navDrawer(context) => Drawer(
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(50.0)),
                   ),
-                  child: const Text('Место для картинки'),
+                  child: const Image(image: AssetImage('assets/dart-logo 1.png'),),
                 ),
-                const Text('Панель Drawer'),
               ],
             ),
           )),
