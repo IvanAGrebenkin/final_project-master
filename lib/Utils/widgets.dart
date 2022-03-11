@@ -1,7 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final _messengerKey = GlobalKey<ScaffoldMessengerState>();
+final userController = TextEditingController();
+final passController = TextEditingController();
+
+String? _userStoredName;
+String? _userStoredPass;
+void _saveUserData() async {
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setString('userStoredName', (_userStoredName ?? ''));
+  prefs.setString('userStoredPass', (_userStoredPass ?? ''));
+}
+
 
 Widget navDrawer(context) => Drawer(
   child: ListView(
@@ -38,31 +50,49 @@ Widget navDrawer(context) => Drawer(
                   content: Text('Переход на главный экран')));
         },
       ),// Кнопка перехода на главный экран
-      const Divider(),
-      ListTile(
-        leading: const Icon(CupertinoIcons.circle_grid_3x3_fill),
-        title: const Text('Калькулятор'),
-        onTap: (){
-          Navigator.pushNamed(context, '/nav_calculator');
-          _messengerKey.currentState!.showSnackBar(
-              const SnackBar(
-                  duration: Duration(seconds: 5),
-                  content: Text('Переход в калькулятор')));
-        },
+      Container(
+        color: Colors.amber,
+        child: ListTile(
+          leading: const Icon(CupertinoIcons.circle_grid_3x3_fill),
+          title: const Text('Калькулятор'),
+          onTap: (){
+            Navigator.pushNamed(context, '/nav_calculator');
+            _messengerKey.currentState!.showSnackBar(
+                const SnackBar(
+                    duration: Duration(seconds: 5),
+                    content: Text('Переход в калькулятор')));
+          },
+        ),
       ),// Кнопка перехода на экран калькулятора
-      const Divider(),
-      ListTile(
-        leading: const Icon(CupertinoIcons.add_circled),
-        title: const Text('Счетчик'),
-        onTap: (){
-          Navigator.pushNamed(context, '/counter');
-          _messengerKey.currentState!.showSnackBar(
-              const SnackBar(
-                  duration: Duration(seconds: 5),
-                  content: Text('Переход в счетчик')));
-        },
+      Container(
+        color: Colors.lightGreen,
+        child: ListTile(
+          leading: const Icon(CupertinoIcons.add_circled),
+          title: const Text('Счетчик'),
+          onTap: (){
+            Navigator.pushNamed(context, '/counter');
+            _messengerKey.currentState!.showSnackBar(
+                const SnackBar(
+                    duration: Duration(seconds: 5),
+                    content: Text('Переход в счетчик')));
+          },
+        ),
       ),// Кнопка перехода на экран счетчика
+      const Divider(
+        thickness: 2,
+      ),
+      ListTile(
+        leading: const Icon(Icons.exit_to_app),
+        title: const Text('Выйти из аккаунта'),
+        onTap: (){
+          _userStoredName ='';
+          _userStoredPass ='';
+          _saveUserData();
+          Navigator.pushNamed(context, '/');
 
+          // setState(() {});
+        },
+      ),// Кнопка выхода из учетной записи
     ],
   ),
 );

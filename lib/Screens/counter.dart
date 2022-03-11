@@ -121,7 +121,7 @@ class _CounterScreenState extends State<CounterScreen> {
     return MaterialApp(
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: Colors.green,
+          primarySwatch: Colors.lightGreen,
         ),
       ),
       scaffoldMessengerKey: _messengerKey,
@@ -153,29 +153,30 @@ class _CounterScreenState extends State<CounterScreen> {
                         ),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(10),
-                          primary: Colors.green,
+                          primary: Colors.lightGreen,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(36.0)),
                         ),
                       ),
-                    ),
+                    ),// Кнопка инкремента счетчика 1
                     const SizedBox(width:25,),
                     SizedBox(width:154, height:42,
                       child: ElevatedButton(
                         onPressed: _counterReset1,
                         child: const Text('Сброс счетчика',
                           style: TextStyle(
+                            inherit: false,
                             fontSize:16,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
+                          primary:  Colors.lightGreen,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(36.0)),
                         ),
                       ),
-                    ),
+                    ),// Кнопка сброс счетчика 1
                   ],
                 ),// Кнопки счетчика 1
                 const SizedBox(height:50,),
@@ -201,29 +202,30 @@ class _CounterScreenState extends State<CounterScreen> {
                         ),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.all(10),
-                          primary: Colors.green,
+                          primary:  Colors.lightGreen,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(36.0)),
                         ),
                       ),
-                    ),
+                    ),// Кнопка инкремента счетчика 2
                     const SizedBox(width:25,),
                     SizedBox(width:154, height:42,
                       child: ElevatedButton(
                         onPressed: _counterReset2,
                         child: const Text('Сброс счетчика',
                           style: TextStyle(
+                            inherit: false,
                             fontSize:16,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.green,
+                          primary:  Colors.lightGreen,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(36.0)),
                         ),
                       ),
-                    ),
+                    ),// Кнопка сброса счетчика 2
                   ],
                 ),// Кнопки счетчика 2
               ],
